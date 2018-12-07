@@ -1,0 +1,27 @@
+{
+  "name": "optimogame",
+  "version": "1.0.0",
+  "description": "Optimo Development test game",
+  "main": "index.js",
+  "scripts": {
+    "start": "npx tsc && npm run open",
+    "dev": "npx concurrently \"npm run open\" \"npx tsc -w\"",
+    "open": "npx http-server ./dist/ -a localhost -p 1234 -o -c 1",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "game",
+    "test",
+    "catcher",
+    "pixi",
+    "typescript"
+  ],
+  "author": "Jakub Joras",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^4.1.0",
+    "http-server": "^0.11.1",
+    "sleep-ms": "^2.0.1",
+    "typescript": "^3.2.1"
+  }
+}
