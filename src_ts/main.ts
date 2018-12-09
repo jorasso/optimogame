@@ -1,32 +1,34 @@
 import {Graphics, Application, ApplicationOptions, SHAPES } from 'pixi.js';
-import Circle from './shape';
+import GameScene from './gamescene';
+import {TexturesCache} from './types';
 
 new class Main {
     app: Application;
 
     settings: ApplicationOptions = {
-        backgroundColor: 0xFFFFFF,
+        backgroundColor: 0xffff00,
         antialias: true
     };
 
+    textures: TexturesCache;
+
+    gameScene: GameScene;
+
     constructor() {
-        this.app = new Application(window.innerWidth, window.innerHeight, this.settings);
+        PIXI.loader
+            .add('images/atlases.json')
+            .load(this.loaded.bind(this));
+    }
+
+    loaded(loader:PIXI.loaders.Loader, resources: PIXI.loaders.ResourceDictionary) {
+        this.textures = resources['images/atlases.json'].textures
+
+        this.app = new Application(320, 480, this.settings);
         document.body.appendChild(this.app.view);
 
-        let circle: Graphics= new Graphics();
-        circle.beginFill(0x0000ff, 0.7);
-        circle.drawCircle(100, 100, 20);
+        this.gameScene = new GameScene(this.textures);
+        this.app.stage.addChild(this.gameScene);
 
-        let circle2 : Circle = new Circle();
-        this.app.stage.addChild(circle2);
-
-
-        this.app.stage.addChild(circle);
-
-        // Animation loop
-        this.app.ticker.add((delta) => {
-            circle.position.x += delta * 0.3;
-            circle.position.y += delta * 0.3; 
-        });
+        this.app.ticker.add(this.gameScene.tick.bind(this.gameScene));
     }
 }
