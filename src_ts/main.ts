@@ -14,7 +14,7 @@ new class Main {
         document.body.appendChild(this.app.view);
 
         let circle: Graphics= new Graphics();
-        circle.beginFill(0xFfff00, 0.7);
+        circle.beginFill(0x0000ff, 0.7);
         circle.drawCircle(100, 100, 20);
 
         let circle2 : Circle = new Circle();

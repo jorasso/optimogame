@@ -8,7 +8,7 @@ export default class Circle extends Sprite {
         super();
 
         this.graphics = new Graphics();
-        this.graphics.beginFill(0x00ffff, 0.7);
+        this.graphics.beginFill(0xffafaf, 0.7);
         this.graphics.drawCircle(100, 100, 20);
 
         this.addChild(this.graphics);

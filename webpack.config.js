@@ -1,12 +1,13 @@
 const path = require('path');
-const publicFolder = 'public';
+const publicFolder = 'dist';
 
 module.exports = {
+    mode: 'development',
     devtool: 'inline-source-map',
-    entry: "./src/index.ts",
+    entry: "./src_ts/main.ts",
     output: {
         path: path.join(__dirname, publicFolder),
-        filename: 'js/bundle.js',
+        filename: 'game.js',
         publicPath: '/'    
     },
     resolve: {
@@ -20,5 +21,17 @@ module.exports = {
                 loaders: ['awesome-typescript-loader']
             }
         ]
+    },
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendors",
+                    chunks: "all",
+                    filename: "vendors.js"
+                }
+            }
+        }
     }
 };

@@ -1,17 +1,14 @@
 {
   "name": "optimogame",
   "version": "1.0.0",
-  "description": "Optimo Development test game",
-  "main": "index.js",
+  "description": "Optimo Development Test Game",
+  "main": "dist/bundle.js",
   "scripts": {
-    "start": "npx tsc && npm run open",
-    "dev": "npx concurrently \"npm run open\" \"npm run watch\"",
-    "watch": "tsc-watch --onSuccess \"npm run bundle\"",
-    "open": "http-server ./dist/ -a localhost -p 1234 -o -c 1",
-    "bundle": "npx tsc && npm run browserify && npm run exorcist && npm run sorcery",
-    "browserify": "browserify ./temps/output_js/main.js --debug > ./temps/browserify_bundle.js",
-    "exorcist": "exorcist --root ../ < ./temps/browserify_bundle.js ./temps/exorcist_bundle.js.map > ./temps/exorcist_bundle.js",
-    "sorcery": "sorcery --input ./temps/exorcist_bundle.js --output ./dist/script.js",
+    "start": "npm run build && npm run server",
+    "dev": "concurrently \"npm run server\" \"npm run watch\"",
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "server": "live-server --port=3456 --open=dist --watch=dist --quiet",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -30,6 +27,7 @@
     "concurrently": "^4.1.0",
     "exorcist": "^1.0.1",
     "http-server": "^0.11.1",
+    "live-server": "^1.2.1",
     "sleep-ms": "^2.0.1",
     "sorcery": "^0.10.0",
     "tsc-watch": "^1.0.31",
