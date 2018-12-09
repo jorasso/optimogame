@@ -25,6 +25,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/pixi.js": "^4.8.4",
+    "awesome-typescript-loader": "^5.2.1",
     "browserify": "^16.2.3",
     "concurrently": "^4.1.0",
     "exorcist": "^1.0.1",
