@@ -1,12 +1,12 @@
 {
     "compileOnSave": true,
     "compilerOptions": {
-        "module": "system",
+        "module": "commonjs",
         "noImplicitAny": true,
         "removeComments": true,
         "preserveConstEnums": true,
         "rootDir": "src_ts",
-        "outFile": "./dist/game.js",
+        "outDir": "./temps/output_js/",
         "sourceMap": true
     },
     "include": [

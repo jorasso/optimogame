@@ -5,8 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "npx tsc && npm run open",
-    "dev": "npx concurrently \"npm run open\" \"npx tsc -w\"",
-    "open": "npx http-server ./dist/ -a localhost -p 1234 -o -c 1",
+    "dev": "npx concurrently \"npm run open\" \"npm run watch\"",
+    "watch": "tsc-watch --onSuccess \"npm run bundle\"",
+    "open": "http-server ./dist/ -a localhost -p 1234 -o -c 1",
+    "bundle": "npx tsc && npm run browserify && npm run exorcist && npm run sorcery",
+    "browserify": "browserify ./temps/output_js/main.js --debug > ./temps/browserify_bundle.js",
+    "exorcist": "exorcist --root ../ < ./temps/browserify_bundle.js ./temps/exorcist_bundle.js.map > ./temps/exorcist_bundle.js",
+    "sorcery": "sorcery --input ./temps/exorcist_bundle.js --output ./dist/script.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -20,9 +25,18 @@
   "license": "ISC",
   "devDependencies": {
     "@types/pixi.js": "^4.8.4",
+    "browserify": "^16.2.3",
     "concurrently": "^4.1.0",
+    "exorcist": "^1.0.1",
     "http-server": "^0.11.1",
     "sleep-ms": "^2.0.1",
-    "typescript": "^3.2.1"
+    "sorcery": "^0.10.0",
+    "tsc-watch": "^1.0.31",
+    "typescript": "^3.2.1",
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "pixi.js": "^4.8.3"
   }
 }
