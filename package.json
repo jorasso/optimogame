@@ -28,6 +28,7 @@
     "exorcist": "^1.0.1",
     "http-server": "^0.11.1",
     "live-server": "^1.2.1",
+    "pixi-particles": "^3.1.0",
     "sleep-ms": "^2.0.1",
     "sorcery": "^0.10.0",
     "tsc-watch": "^1.0.31",

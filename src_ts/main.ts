@@ -7,7 +7,7 @@ new class Main {
 
     settings: ApplicationOptions = {
         backgroundColor: 0xffff00,
-        antialias: true
+        antialias: false
     };
 
     textures: TexturesCache;

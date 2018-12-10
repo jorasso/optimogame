@@ -1,10 +1,12 @@
 import { Sprite, Graphics, Container, Point } from 'pixi.js';
 import {TexturesCache} from './types';
 import Hero from './hero';
+import FoodManager from './foodmanager';
 
 export default class GameScene extends Container {
     background: Sprite;
     hero: Hero;
+    foodManager: FoodManager;
 
     constructor(texturesCache: TexturesCache) { 
         super();
@@ -17,6 +19,9 @@ export default class GameScene extends Container {
 
         this.hero = new Hero(texturesCache);
         this.addChild(this.hero);
+
+        this.foodManager = new FoodManager(texturesCache);
+        this.addChild(this.foodManager);
     }
 
     private onPointerMove (e: PIXI.interaction.InteractionEvent) {
@@ -25,7 +30,6 @@ export default class GameScene extends Container {
 
         pos.x = Math.max(Math.min(320, pos.x), 0);
         pos.y = Math.max(Math.min(480, pos.y), 0);
-        console.log(pos.x, pos.y);
 
         this.hero.updateTargetPosition(pos.x);
     }
@@ -39,5 +43,6 @@ export default class GameScene extends Container {
     {
         //console.log(delta);
         this.hero.tick(delta);
+        this.foodManager.tick(delta, this.hero);
     }
 }

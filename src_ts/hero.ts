@@ -25,6 +25,9 @@ export default class Hero extends Container {
 
     lastTargetUpdate: number = 0;
 
+    collisionRect: PIXI.Rectangle = new PIXI.Rectangle(-30, -10, 60, 40);
+    debugCollisionGraphics: PIXI.Graphics = new PIXI.Graphics();
+
     constructor(texturesCache: TexturesCache) { 
         super();
 
@@ -49,6 +52,13 @@ export default class Hero extends Container {
 
         this.x = 160;
         this.y = 350;
+
+        this.debugCollisionGraphics.beginFill(0xff0000, 0.4);
+        this.debugCollisionGraphics.drawRect(this.collisionRect.x, 
+            this.collisionRect.y, this.collisionRect.width, this.collisionRect.height);
+        
+        this.addChild(this.debugCollisionGraphics);
+
     }
 
     public tick(delta:number) {
