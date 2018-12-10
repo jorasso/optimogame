@@ -73,7 +73,6 @@ export default class GameScene extends Container {
 
         let pos: Point = e.data.getLocalPosition(this.background);
         
-
         pos.x = Math.max(Math.min(320, pos.x), 0);
         pos.y = Math.max(Math.min(480, pos.y), 0);
 
@@ -106,6 +105,7 @@ export default class GameScene extends Container {
         this.healthBar.setHealth(this.lives / 2 * 100);
 
         this.screenEffects.flush(0xff0000);
+        this.screenEffects.shake(5);
 
         if (this.lives === 0){
             this.onGameOver();
@@ -119,7 +119,7 @@ export default class GameScene extends Container {
 
         this.pointsDisplay.setPoints(this.points);
 
-        this.screenEffects.shake(3);
+        this.screenEffects.shake(3, true);
     } 
 
     public onGameOver (): void {

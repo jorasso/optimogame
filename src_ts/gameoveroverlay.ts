@@ -1,6 +1,6 @@
 import { Container, Text } from 'pixi.js';
 
-import { TimelineLite, Back, Sine } from "gsap"
+import { TimelineLite, Back } from "gsap"
 
 export default class GameOverOverlay extends Container {
     gameOverText: Text;
@@ -16,7 +16,7 @@ export default class GameOverOverlay extends Container {
         style.align = 'center';
         style.stroke = 0xffffff;
         style.strokeThickness = 6;
-        style.fontSize = 50;
+        style.fontSize = 40;
         style.miterLimit = 3;
 
         this.gameOverText = new Text('GAME OVER', style);

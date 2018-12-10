@@ -29,8 +29,11 @@ export default class ScreenEffects extends Sprite {
         this.flushTimeline.to(this, 0.2, {alpha: 0});
     }
 
-    public shake (strength: number): void {
-        let angle: number = Math.random() * Math.PI * 2;
+    public shake (strength: number, short: boolean = false, angle?: number): void {
+
+        if (angle === undefined){
+            angle = Math.random() * Math.PI * 2;
+        }
 
         let ampX: number = Math.cos(angle) * strength;
         let ampY: number = Math.sin(angle) * strength;
@@ -39,10 +42,18 @@ export default class ScreenEffects extends Sprite {
         this.shakeTimeline
         .to(this.shakeView, 0.1, {x: ampX, y: ampY})
         .to(this.shakeView, 0.1, {x: -ampX, y: -ampY})
-        .to(this.shakeView, 0.1, {x: ampX, y: ampY})
-        .to(this.shakeView, 0.1, {x: -ampX, y: -ampY})
+
+        if(!short)
+        {
+            this.shakeTimeline
+            .to(this.shakeView, 0.1, {x: ampX, y: ampY})
+            .to(this.shakeView, 0.1, {x: -ampX, y: -ampY})
+        }
+        
+        this.shakeTimeline
         .to(this.shakeView, 0.1, {x: 0, y: 0});
     }
+
 
     public fadeIn (color: number, cb?: (() => void)): void {
         this.tint = color;
