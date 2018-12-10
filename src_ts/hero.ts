@@ -1,7 +1,5 @@
-import { Sprite, Graphics, Container, Texture } from 'pixi.js';
-import {TexturesCache} from './types';
+import { Container, Texture } from 'pixi.js';
 
-type AnimatedSprite = PIXI.extras.AnimatedSprite;
 enum State {
     Idle,
     Walk,
@@ -10,8 +8,6 @@ enum State {
 
 export default class Hero extends Container {
     currentState: State = State.Idle;
-
-    texturesCache: TexturesCache;
 
     idleAnim: PIXI.extras.AnimatedSprite;
     walkAnim: PIXI.extras.AnimatedSprite;
@@ -28,10 +24,8 @@ export default class Hero extends Container {
     collisionRect: PIXI.Rectangle = new PIXI.Rectangle(-30, -10, 60, 40);
     debugCollisionGraphics: PIXI.Graphics = new PIXI.Graphics();
 
-    constructor(texturesCache: TexturesCache) { 
+    constructor() { 
         super();
-
-        this.texturesCache = texturesCache;
 
         this.idleAnim = this.createAnimatedSprite('idle', [0, 1, 2, 3]);
         this.walkAnim = this.createAnimatedSprite('walk', [0, 1, 2, 3, 4]);
@@ -57,7 +51,7 @@ export default class Hero extends Container {
         this.debugCollisionGraphics.drawRect(this.collisionRect.x, 
             this.collisionRect.y, this.collisionRect.width, this.collisionRect.height);
         
-        this.addChild(this.debugCollisionGraphics);
+        //this.addChild(this.debugCollisionGraphics);
 
     }
 
@@ -111,7 +105,7 @@ export default class Hero extends Container {
 
         frameIndexes.forEach(val => {
             let frameName = 'hero_' + name + '_' + val + '.png';
-            frames.push(this.texturesCache[frameName]);
+            frames.push(PIXI.utils.TextureCache[frameName]);
         });
 
         let animatedSprite: PIXI.extras.AnimatedSprite = new PIXI.extras.AnimatedSprite(frames);

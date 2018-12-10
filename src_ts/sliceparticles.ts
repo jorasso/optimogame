@@ -1,24 +1,24 @@
 import { Emitter } from 'pixi-particles';
 
 export default class SliceParticles extends Emitter {
-    constructor(view: PIXI.Container, x: number, y: number) {
-        
+    constructor(view: PIXI.Container, x: number, y: number, 
+        scaleMultip: number = 1, speedMultip: number = 1, color: string = '#ffffff') {
         let settings: object = {
             alpha: {
                 start: 1,
                 end: 1
             },
             scale: {
-                start: 0.6,
-                end: 0.01,
+                start: 0.6 * scaleMultip,
+                end: 0.01 * scaleMultip,
                 minimumScaleMultiplier: 1
             },
             color: {
-                start: "#e4f9ff",
-                end: "#ffffff"
+                start: color,
+                end: color
             },
             speed: {
-                start: 350,
+                start: 350 * speedMultip,
                 end: 0,
                 minimumSpeedMultiplier: 1
             },

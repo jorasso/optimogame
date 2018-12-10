@@ -1,16 +1,13 @@
-import {Graphics, Application, ApplicationOptions, SHAPES } from 'pixi.js';
+import { Application, ApplicationOptions } from 'pixi.js';
 import GameScene from './gamescene';
-import {TexturesCache} from './types';
 
 new class Main {
     app: Application;
 
     settings: ApplicationOptions = {
-        backgroundColor: 0xffff00,
+        backgroundColor: 0x000000,
         antialias: false
     };
-
-    textures: TexturesCache;
 
     gameScene: GameScene;
 
@@ -21,14 +18,22 @@ new class Main {
     }
 
     loaded(loader:PIXI.loaders.Loader, resources: PIXI.loaders.ResourceDictionary) {
-        this.textures = resources['images/atlases.json'].textures
 
         this.app = new Application(320, 480, this.settings);
         document.body.appendChild(this.app.view);
 
-        this.gameScene = new GameScene(this.textures);
+        this.gameScene = new GameScene(this.restart.bind(this));
         this.app.stage.addChild(this.gameScene);
 
-        this.app.ticker.add(this.gameScene.tick.bind(this.gameScene));
+        this.app.ticker.add((delta: number)=>{
+            this.gameScene.tick(delta);
+        });
+    }
+
+    public restart(): void {
+        this.app.stage.removeChildren();
+
+        this.gameScene = new GameScene(this.restart.bind(this));
+        this.app.stage.addChild(this.gameScene);
     }
 }

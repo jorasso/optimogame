@@ -1,24 +1,29 @@
 import { Container } from 'pixi.js';
 import 'pixi-particles';
 
-import {TexturesCache} from './types';
 import Food from './food';
 import Hero from './hero';
 import SliceParticles from './sliceparticles';
 
 export default class FoodManager extends Container {
+ 
+    active: boolean = true;
+
+    difficultySpaceBetweenFoods: number = 20;
+    difficultyStartingVelYVar: number = 0;
 
     foods: Food[] = [];
     foodOnTop: Food;
 
     foodsToSlice: Food[] = [];
 
-    constructor(texturesCache: TexturesCache) { 
+    constructor() { 
         super();
+
 
         for (let i = 0; i < 10; i++)
         {
-            let food = new Food(texturesCache);
+            let food = new Food();
 
             food.x = 50 + Math.random() * 220;
             food.y = -50;
@@ -43,13 +48,21 @@ export default class FoodManager extends Container {
         this.foods.forEach(food => {
             food.tick(delta, 0.02);
 
-            if(food.y > 500){
+            let y1: number = hero.y + hero.collisionRect.y + hero.collisionRect.height;
+            if (food.y > y1 && !food.markedAsMissed){
+                food.markedAsMissed = true;
+                new SliceParticles(this, food.x, food.y, 1.5, 0.5, '#ff0000');
                 this.placeOnStart(food);
+                this.emit('food-missed');
             }
 
-            if (!food.falling && food.prevFood.falling && food.prevFood.y - food.y > 10){
-                food.vy = 0;
+            if (this.active && !food.falling && food.prevFood.falling && food.prevFood.y - food.y > this.difficultySpaceBetweenFoods){
+                food.vy =  Math.random() * this.difficultyStartingVelYVar;
                 food.falling = true;
+                this.difficultyStartingVelYVar += 0.01;
+                this.difficultySpaceBetweenFoods -= 0.01;
+
+                this.difficultySpaceBetweenFoods = Math.max(10, this.difficultySpaceBetweenFoods);
             }
 
             if (food.markedToSlice)
@@ -60,11 +73,13 @@ export default class FoodManager extends Container {
                     new SliceParticles(this, food.x, food.y);
 
                     this.placeOnStart(food);
+
+                    this.emit('food-sliced');
                 }
             }
         });
 
-        this.checkCollisionsWithHero(hero);
+       /// this.checkCollisionsWithHero(hero);
     }
 
     public checkCollisionsWithHero (hero: Hero): void {
@@ -81,13 +96,13 @@ export default class FoodManager extends Container {
         });
     }
 
-
     public placeOnStart (food: Food): void {
+        food.reset();
+
+        food.x = 50 + Math.random() * 220;
         food.y = -50;
+
         food.prevFood = this.foodOnTop;
         this.foodOnTop = food;
-        food.vy = 0;
-        food.falling = false;
-        food.markedToSlice = false;
     }
 }

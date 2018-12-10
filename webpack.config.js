@@ -12,7 +12,9 @@ module.exports = {
     },
     resolve: {
         extensions: ['.ts', '.js'],
-        modules: [path.resolve(path.join(__dirname, 'node_modules'))]
+        modules: [
+            path.resolve(path.join(__dirname, 'node_modules'))
+        ],
     },
     module: {
         rules: [
