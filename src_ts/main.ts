@@ -1,4 +1,5 @@
 import { Application, ApplicationOptions, MaskManager } from "pixi.js";
+import GameParams from "./gameparams";
 import GameScene from "./gamescene";
 
 class Main {
@@ -18,7 +19,7 @@ class Main {
 
     public loaded(loader: PIXI.loaders.Loader, resources: PIXI.loaders.ResourceDictionary) {
 
-        this.app = new Application(320, 480, this.settings);
+        this.app = new Application(GameParams.getInstance().width, GameParams.getInstance().height, this.settings);
         document.body.appendChild(this.app.view);
 
         this.gameScene = new GameScene(this.restart.bind(this));

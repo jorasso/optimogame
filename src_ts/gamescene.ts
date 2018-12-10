@@ -3,12 +3,13 @@ import Hero from "./hero";
 
 import FoodManager from "./foodmanager";
 import GameOverOverlay from "./gameoveroverlay";
+import GameParams from "./gameparams";
 import HealthBar from "./healthbar";
 import PointsDisplay from "./pointsdisplay";
 import ScreenEffects from "./screeneffect";
 
 export default class GameScene extends Container {
-    private lives: number = 10;
+    private lives: number = GameParams.getInstance().lives;
     private points: number = 0;
 
     private gameEnded: boolean = false;
@@ -53,14 +54,14 @@ export default class GameScene extends Container {
         this.pointsDisplay = new PointsDisplay();
         this.addChild(this.pointsDisplay);
 
-        this.pointsDisplay.x = 320 - 5;
+        this.pointsDisplay.x = GameParams.getInstance().width - 5;
         this.pointsDisplay.y = 0;
 
         this.gameOverOverlay = new GameOverOverlay();
         this.addChild(this.gameOverOverlay);
 
-        this.gameOverOverlay.x = 320 / 2;
-        this.gameOverOverlay.y = 480 / 2 - 100;
+        this.gameOverOverlay.x = GameParams.getInstance().width / 2;
+        this.gameOverOverlay.y = GameParams.getInstance().height / 2 - 100;
 
         this.screenEffects = new ScreenEffects(this, 320, 480, 0xff0000);
         this.addChild(this.screenEffects);
@@ -87,7 +88,7 @@ export default class GameScene extends Container {
         }
         this.lives -= 1;
 
-        this.healthBar.setHealth(this.lives / 10 * 100);
+        this.healthBar.setHealth(this.lives / GameParams.getInstance().lives * 100);
 
         this.screenEffects.flush(0xff0000);
         this.screenEffects.shake(5);
@@ -140,8 +141,8 @@ export default class GameScene extends Container {
 
         const pos: Point = e.data.getLocalPosition(this.background);
 
-        pos.x = Math.max(Math.min(320, pos.x), 0);
-        pos.y = Math.max(Math.min(480, pos.y), 0);
+        pos.x = Math.max(Math.min(GameParams.getInstance().width, pos.x), 0);
+        pos.y = Math.max(Math.min(GameParams.getInstance().height, pos.y), 0);
 
         this.hero.updateTargetPosition(pos.x);
     }
