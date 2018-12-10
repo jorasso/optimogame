@@ -1,6 +1,6 @@
-import { Sprite, DisplayObject } from 'pixi.js';
+import { DisplayObject, Sprite } from "pixi.js";
 
-import { TimelineLite } from "gsap"
+import { TimelineLite } from "gsap";
 
 export default class ScreenEffects extends Sprite {
     private shakeTimeline: TimelineLite = new TimelineLite();
@@ -8,10 +8,10 @@ export default class ScreenEffects extends Sprite {
 
     private shakeView: DisplayObject;
 
-    constructor(shakeView: DisplayObject, width: number, height: number, color: number) { 
+    constructor(shakeView: DisplayObject, width: number, height: number, color: number) {
         super(PIXI.Texture.WHITE);
 
-        this.scale.set(width/this.texture.width, height/this.texture.height);
+        this.scale.set(width / this.texture.width, height / this.texture.height);
 
         this.tint = color;
 
@@ -20,7 +20,7 @@ export default class ScreenEffects extends Sprite {
         this.shakeView = shakeView;
     }
 
-    public flush (color: number): void {
+    public flush(color: number): void {
         this.tint = color;
 
         this.alpha = .5;
@@ -29,45 +29,42 @@ export default class ScreenEffects extends Sprite {
         this.flushTimeline.to(this, 0.2, {alpha: 0});
     }
 
-    public shake (strength: number, short: boolean = false, angle?: number): void {
+    public shake(strength: number, short: boolean = false, angle?: number): void {
 
-        if (angle === undefined){
+        if (angle === undefined) {
             angle = Math.random() * Math.PI * 2;
         }
 
-        let ampX: number = Math.cos(angle) * strength;
-        let ampY: number = Math.sin(angle) * strength;
+        const ampX: number = Math.cos(angle) * strength;
+        const ampY: number = Math.sin(angle) * strength;
 
         this.shakeTimeline.clear();
         this.shakeTimeline
         .to(this.shakeView, 0.1, {x: ampX, y: ampY})
-        .to(this.shakeView, 0.1, {x: -ampX, y: -ampY})
+        .to(this.shakeView, 0.1, {x: -ampX, y: -ampY});
 
-        if(!short)
-        {
+        if (!short) {
             this.shakeTimeline
             .to(this.shakeView, 0.1, {x: ampX, y: ampY})
-            .to(this.shakeView, 0.1, {x: -ampX, y: -ampY})
+            .to(this.shakeView, 0.1, {x: -ampX, y: -ampY});
         }
-        
+
         this.shakeTimeline
         .to(this.shakeView, 0.1, {x: 0, y: 0});
     }
 
-
-    public fadeIn (color: number, cb?: (() => void)): void {
+    public fadeIn(color: number, cb?: (() => void)): void {
         this.tint = color;
 
         this.flushTimeline.clear();
         this.flushTimeline.to(this, 0.75, {alpha: 1});
 
-        if (cb)
-        {
+        if (cb) {
             this.flushTimeline.call(cb);
         }
     }
 
-    public fadeOut (color: number): void {
+    public fadeOut(color: number): void {
         this.tint = color;
 
         this.alpha = 1;
@@ -76,7 +73,7 @@ export default class ScreenEffects extends Sprite {
         this.flushTimeline.to(this, 0.75, {alpha: 0});
     }
 
-    public clear (): void {
+    public clear(): void {
         this.shakeTimeline.clear();
         this.flushTimeline.clear();
     }

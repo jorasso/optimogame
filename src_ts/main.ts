@@ -1,23 +1,22 @@
-import { Application, ApplicationOptions } from 'pixi.js';
-import GameScene from './gamescene';
+import { Application, ApplicationOptions, MaskManager } from "pixi.js";
+import GameScene from "./gamescene";
 
-new class Main {
-    app: Application;
+class Main {
+    private app: Application;
 
-    settings: ApplicationOptions = {
-        backgroundColor: 0x000000,
-        antialias: false
-    };
+    private settings: ApplicationOptions = {
+        antialias: false,
+        backgroundColor: 0x000000 };
 
-    gameScene: GameScene;
+    private gameScene: GameScene;
 
     constructor() {
         PIXI.loader
-            .add('images/atlases.json')
+            .add("images/atlases.json")
             .load(this.loaded.bind(this));
     }
 
-    loaded(loader:PIXI.loaders.Loader, resources: PIXI.loaders.ResourceDictionary) {
+    public loaded(loader: PIXI.loaders.Loader, resources: PIXI.loaders.ResourceDictionary) {
 
         this.app = new Application(320, 480, this.settings);
         document.body.appendChild(this.app.view);
@@ -25,7 +24,7 @@ new class Main {
         this.gameScene = new GameScene(this.restart.bind(this));
         this.app.stage.addChild(this.gameScene);
 
-        this.app.ticker.add((delta: number)=>{
+        this.app.ticker.add((delta: number) => {
             this.gameScene.tick(delta);
         });
     }
@@ -37,3 +36,5 @@ new class Main {
         this.app.stage.addChild(this.gameScene);
     }
 }
+
+const main = new Main();

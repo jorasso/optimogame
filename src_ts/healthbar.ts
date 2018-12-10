@@ -1,17 +1,18 @@
-import { Sprite, Container } from 'pixi.js';
+import { Container, Sprite } from "pixi.js";
 
 export default class HealthBar extends Container {
-    
-    decoration: Sprite;
-    bar: Sprite;
 
-    constructor() { 
+    private decoration: Sprite;
+    private  bar: Sprite;
+
+    constructor() {
+
         super();
-        
-        this.decoration = new Sprite(PIXI.utils.TextureCache['health_bar_decoration.png']);
+
+        this.decoration = new Sprite(PIXI.utils.TextureCache["health_bar_decoration.png"]);
         this.addChild(this.decoration);
 
-        this.bar = new Sprite(PIXI.utils.TextureCache['health_bar.png']);
+        this.bar = new Sprite(PIXI.utils.TextureCache["health_bar.png"]);
         this.addChild(this.bar);
         this.bar.x = 14;
 
