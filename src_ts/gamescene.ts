@@ -8,7 +8,7 @@ import PointsDisplay from "./pointsdisplay";
 import ScreenEffects from "./screeneffect";
 
 export default class GameScene extends Container {
-    private lives: number = 2;
+    private lives: number = 10;
     private points: number = 0;
 
     private gameEnded: boolean = false;
@@ -87,7 +87,7 @@ export default class GameScene extends Container {
         }
         this.lives -= 1;
 
-        this.healthBar.setHealth(this.lives / 2 * 100);
+        this.healthBar.setHealth(this.lives / 10 * 100);
 
         this.screenEffects.flush(0xff0000);
         this.screenEffects.shake(5);
